@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Ruhi!</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- Google Fonts (Cursive for header) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #fce3f0, #e8ddff);
+        }
+
+        .font-cursive {
+            font-family: 'Pacifico', cursive;
+        }
+
+        /* Confetti styles */
+        .confetti {
+            width: 15px;
+            height: 15px;
+            background-color: #f00;
+            position: absolute;
+            opacity: 0.7;
+            animation: confetti-fall 5s linear infinite;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotateZ(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotateZ(720deg);
+            }
+        }
+        
+        /* Pop-in animation */
+        @keyframes pop-in {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        .animate-pop-in {
+            animation: pop-in 0.5s ease-out forwards;
+        }
+
+        /* Balloon styles */
+        .balloon {
+            width: 70px;
+            height: 90px;
+            background-color: rgba(219, 112, 147, 0.8); /* PaleVioletRed with transparency */
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: absolute;
+            bottom: -100px;
+            animation: float 10s linear infinite;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .balloon:before {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1px;
+            height: 20px;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .balloon:after {
+            content: "";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: inherit;
+            border-radius: 50%;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh);
+                opacity: 0;
+            }
+        }
+
+        .balloon.popped {
+            opacity: 0;
+            transform: scale(1.5);
+        }
+    </style>
+</head>
+<body class="min-h-screen relative">
+    <!-- Background Gradient & Confetti Container -->
+    <div id="confetti-container" class="absolute inset-0 overflow-hidden z-0"></div>
+
+    <!-- Main Content -->
+    <div class="relative z-10 p-4 md:p-8 max-w-7xl mx-auto">
+        
+        <!-- Header -->
+        <header class="text-center my-8 md:my-16">
+            <h1 id="main-header" class="font-cursive text-6xl md:text-8xl text-pink-500 drop-shadow-md">Happy Birthday in Advance, Ruhi!</h1>
+            <p id="sub-header" class="text-2xl md:text-3xl text-purple-600 mt-2">Welcome to Your (Almost) Celebration!</p>
+        </header>
+
+        <!-- Countdown Timer -->
+        <div class="max-w-3xl mx-auto bg-white/70 backdrop-blur-md p-6 md:p-8 rounded-2xl shadow-xl border border-gray-100 mb-12">
+            <!-- Lottie animation removed as requested -->
+            
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-6 mt-4">The Celebration Begins In...</h2>
+            <div id="countdown" class="flex justify-center gap-4 md:gap-8 text-center">
+                <div>
+                    <span id="days" class="text-5xl md:text-7xl font-bold text-pink-600">00</span>
+                    <span class="block text-lg text-gray-600">Days</span>
+                </div>
+                <div>
+                    <span id="hours" class="text-5xl md:text-7xl font-bold text-pink-600">00</span>
+                    <span class="block text-lg text-gray-600">Hours</span>
+                </div>
+                <div>
+                    <span id="minutes" class="text-5xl md:text-7xl font-bold text-pink-600">00</span>
+                    <span class="block text-lg text-gray-600">Minutes</span>
+                </div>
+                <div>
+                    <span id="seconds" class="text-5xl md:text-7xl font-bold text-pink-600">00</span>
+                    <span class="block text-lg text-gray-600">Seconds</span>
+                </div>
+            </div>
+            <div id="birthday-message" class="text-center text-4xl font-bold text-pink-600 font-cursive hidden mt-4">
+                It's Time! Happy Birthday!
+            </div>
+        </div>
+
+        <!-- Main Content Area (Hidden by default) -->
+        <main id="main-content" class="grid grid-cols-1 lg:grid-cols-3 gap-8 hidden">
+
+            <!-- Column 1: Gift -->
+            <div class="lg:col-span-1 space-y-8">
+                <!-- Digital Gift -->
+                <div id="gift-section" class="bg-white/70 backdrop-blur-sm p-6 rounded-2xl shadow-xl border border-gray-100 hidden">
+                    <h2 class="text-2xl font-bold text-center text-green-700 mb-4">A Gift For You, Ruhi</h2>
+                    
+                    <!-- Gift Box (Clickable) -->
+                    <div id="gift-box" class="text-center cursor-pointer transition-transform duration-200 hover:scale-105 p-8">
+                        <i class="fas fa-gift text-8xl text-green-500 drop-shadow-lg"></i>
+                        <p class="mt-4 font-semibold text-green-600">Click to open your gift!</p>
+                    </div>
+
+                    <!-- Gift Message (Hidden) -->
+                    <div id="gift-message" class="hidden flex-col items-center justify-center bg-green-100 p-6 rounded-lg text-center animate-pop-in">
+                        <i class="fas fa-party-horn text-5xl text-green-600 mb-4"></i>
+                        <h3 class="text-xl font-bold text-green-800">My Dearest Ruhi,</h3>
+                        <p class="text-green-700 mt-2 leading-relaxed">
+                            Happy Birthday. You are my greatest joy and my brightest light. May your day be filled with all the love and happiness you bring to everyone around you, and may you feel as special as you truly are.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Column 2: Wish Letter -->
+            <div id="wish-section" class="bg-white/70 backdrop-blur-sm p-6 rounded-2xl shadow-xl border border-gray-100 lg:col-span-1 hidden">
+                <h2 class="text-2xl font-bold text-center text-pink-700 mb-4">A Letter For Ruhi</h2>
+                
+                <!-- Clickable Envelope -->
+                <div id="envelope-container" class="text-center cursor-pointer transition-transform duration-200 hover:scale-105 p-8">
+                    <i class="fas fa-envelope-open-text text-8xl text-pink-400 drop-shadow-lg"></i>
+                    <p class="mt-4 font-semibold text-pink-600">Click to open your letter!</p>
+                </div>
+
+                <!-- Personal Message (Hidden) -->
+                <div id="letter-container" class="hidden space-y-4">
+                    <div class="bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+                        <p class="text-gray-700 leading-relaxed">
+                            My Ruhi,
+                            <br><br>
+                            Happy Birthday! 🥳
+                            <br><br>
+                            From the moment you came into my life, everything became brighter and more beautiful. I wanted this to be the very first thing you see today, a little celebration just for you, from me.
+                            <br><br>
+                            Every single day I feel so incredibly lucky to know you, to love you, and to share my life with you. You are more than I could have ever wished for.
+                            <br><br>
+                            I hope today is as wonderful and as special as you are. I love you more than words can say.
+                            <br><br>
+                            Can't wait to celebrate with you!
+                            <br><br>
+                            - With all my love, forever
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Column 3: Balloon Game -->
+            <div id="game-section" class="bg-white/70 backdrop-blur-sm p-6 rounded-2xl shadow-xl border border-gray-100 lg:col-span-1 hidden">
+                <h2 class="text-2xl font-bold text-center text-indigo-700 mb-4">Balloon Pop!</h2>
+                <div class="relative w-full h-96 bg-blue-100 rounded-lg overflow-hidden border border-blue-200" id="game-area">
+                    <p class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-indigo-500 font-semibold">Click the balloons!</p>
+                    <div class="absolute top-2 left-2 bg-indigo-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+                        Score: <span id="score">0</span>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script type="module">
+        // --- Global Variables ---
+
+        /**
+         * Shows an error message in a modal. (REMOVED)
+         */
+        
+        /**
+         * Hides the error modal. (REMOVED)
+         */
+
+        // --- Core Functions ---
+
+        /**
+         * Creates and throws confetti.
+         */
+        function startConfetti() {
+            const container = document.getElementById('confetti-container');
+            if (!container) return;
+            const colors = ['#e53e3e', '#38b2ac', '#4299e1', '#9f7aea', '#ed8936'];
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                confetti.style.width = Math.floor(Math.random() * 10 + 5) + 'px';
+                confetti.style.height = confetti.style.width;
+                container.appendChild(confetti);
+            }
+        }
+
+        /**
+         * Starts the birthday countdown timer.
+         */
+        function startCountdown() {
+            const countdownEl = document.getElementById('countdown');
+            const messageEl = document.getElementById('birthday-message');
+            if (!countdownEl || !messageEl) return;
+
+            // Set the countdown to tomorrow at midnight
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+            const countDownDate = tomorrow.getTime();
+
+            const interval = setInterval(() => {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
+
+                if (distance <= 0) {
+                    // --- BIRTHDAY TIME! ---
+                    clearInterval(interval);
+                    countdownEl.classList.add('hidden');
+                    messageEl.classList.remove('hidden');
+                    
+                    // Reveal all the hidden birthday sections
+                    const mainContent = document.getElementById('main-content');
+                    const giftSection = document.getElementById('gift-section');
+                    const wishSection = document.getElementById('wish-section');
+                    const gameSection = document.getElementById('game-section');
+                    
+                    if (mainContent) mainContent.classList.remove('hidden');
+                    if (giftSection) {
+                        giftSection.classList.remove('hidden');
+                        giftSection.classList.add('animate-pop-in');
+                    }
+                    if (wishSection) {
+                        wishSection.classList.remove('hidden');
+                        wishSection.classList.add('animate-pop-in');
+                        wishSection.style.animationDelay = '0.2s';
+                    }
+                    if (gameSection) {
+                        gameSection.classList.remove('hidden');
+                        gameSection.classList.add('animate-pop-in');
+                        gameSection.style.animationDelay = '0.4s';
+                    }
+
+                    // Change the main headers
+                    const mainHeader = document.getElementById('main-header');
+                    const subHeader = document.getElementById('sub-header');
+                    if(mainHeader) mainHeader.textContent = "Happy Birthday, Ruhi!";
+                    if(subHeader) subHeader.textContent = "Welcome to Your Celebration!";
+
+                } else {
+                    // Update timer
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                    document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                    document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                    document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+                }
+            }, 1000);
+        }
+
+        /**
+         * Initializes the "Open Gift" interaction.
+         */
+        function initGiftBox() {
+            const giftBox = document.getElementById('gift-box');
+            const giftMessage = document.getElementById('gift-message');
+
+            if (giftBox && giftMessage) {
+                giftBox.addEventListener('click', () => {
+                    giftBox.classList.add('hidden');
+                    giftMessage.classList.remove('hidden');
+                    giftMessage.classList.add('animate-pop-in');
+                });
+            }
+        }
+
+        /**
+         * Initializes the "Open Wish Letter" interaction.
+         */
+        function initWishLetter() {
+            const envelope = document.getElementById('envelope-container');
+            const letter = document.getElementById('letter-container');
+
+            if (envelope && letter) {
+                envelope.addEventListener('click', () => {
+                    envelope.classList.add('hidden');
+                    letter.classList.remove('hidden');
+                    letter.classList.add('animate-pop-in'); // Use existing animation
+                });
+            }
+        }
+
+        /**
+         * Initializes the Balloon Popping Game.
+         */
+        function initBalloonGame() {
+            const gameArea = document.getElementById('game-area');
+            const scoreEl = document.getElementById('score');
+            if (!gameArea || !scoreEl) return;
+
+            let score = 0;
+
+            gameArea.addEventListener('click', (e) => {
+                if (e.target.classList.contains('balloon')) {
+                    e.target.classList.add('popped');
+                    score++;
+                    scoreEl.textContent = score;
+                    // Remove balloon from DOM after animation
+                    setTimeout(() => {
+                        e.target.remove();
+                    }, 300);
+                }
+            });
+
+            // Spawn balloons
+            setInterval(() => {
+                const balloon = document.createElement('div');
+                balloon.classList.add('balloon');
+                const xPos = Math.random() * (gameArea.clientWidth - 70); // 70 is balloon width
+                balloon.style.left = xPos + 'px';
+                
+                // Randomize color
+                const colors = ['rgba(236, 72, 153, 0.8)', 'rgba(139, 92, 246, 0.8)', 'rgba(59, 130, 246, 0.8)', 'rgba(16, 185, 129, 0.8)'];
+                balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                
+                // Randomize animation duration
+                balloon.style.animationDuration = (Math.random() * 5 + 7) + 's'; // 7-12 seconds
+                
+                gameArea.appendChild(balloon);
+
+                // Clean up balloons that have floated away
+                setTimeout(() => {
+                    if (balloon && !balloon.classList.contains('popped')) {
+                        balloon.remove();
+                    }
+                }, 12000); // A bit longer than max animation time
+
+            }, 1500); // Spawn rate
+        }
+
+        // --- App Entry Point ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            startConfetti();
+            startCountdown();
+            initGiftBox();
+            initWishLetter();
+            initBalloonGame();
+        });
+
+    </script>
+</body>
+</html>
